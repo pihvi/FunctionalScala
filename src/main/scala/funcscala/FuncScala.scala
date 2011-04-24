@@ -38,12 +38,14 @@ sealed abstract class Lst[+A] {
     case Nl      => 0
     case x +: xs => 1 + length(xs)
   }
-  //def append[A](a: A, lst: Lst[A]): Lst[A] = insertAt(length(lst), a, lst)
+  
+  def append[A](a: A, lst: Lst[A]): Lst[A] = insertAt(length(lst), a, lst)
 }
 
 object FuncScala extends Application {
-  println(Nl.length(1 +: 2 +: Nl))
+  println(Nl.append(0, 1 +: 2 +: Nl))
   println("Start time: " + new java.util.Date)
+//  println(Nl.length(1 +: 2 +: Nl))
   //  println("index out of bounds: " + Nl.insertAt(6, 0, 1 +: 2 +: 3 +: Nl))
   //  println(Nl.insertAt(1, 0, 1 +: 2 +: 3 +: Nl))
   //  println(1 +: 2 +: Nl)
