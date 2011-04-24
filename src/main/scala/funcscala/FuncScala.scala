@@ -59,15 +59,22 @@ sealed abstract class Lst[+A] {
   }
 
   def drop[A](count: Int, lst: Lst[A]): Lst[A] = lst match {
-    case Nl                     => Nl
-    case lst @ _ if (count < 1) => lst
-    case x +: xs                => drop(count - 1, xs)
+    case Nl                => Nl
+    case xs if (count < 1) => xs
+    case x +: xs           => drop(count - 1, xs)
+  }
+
+  def drop2[A](count: Int, lst: Lst[A]): Lst[A] = (count, lst) match {
+    case (_, Nl)      => Nl
+    case (0, as)      => as
+    case (i, a +: as) => drop2(i - 1, as)
   }
 }
 
 object FuncScala extends Application {
   println("Start time: " + new java.util.Date)
-  println(Nl.drop(2, 1 +: 2 +: 5 +: 6 +: Nl))
+  println(Nl.drop2(-2, 1 +: 2 +: 5 +: 6 +: Nl))
+  println(Nl.drop(-2, 1 +: 2 +: 5 +: 6 +: Nl))
   //  println(Nl.take(3, 1 +: 2 +: 5 +: 6 +: Nl))
   //  println(Nl.concat(1 +: 2 +: Nl, 5 +: 6 +: Nl))
   //  println(Nl.append(0, 1 +: 2 +: Nl))
