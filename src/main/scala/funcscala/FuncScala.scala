@@ -46,6 +46,11 @@ sealed abstract class Lst[+A] {
     case (Nl, ys)      => ys
     case (x +: xs, ys) => x +: concat(xs, ys)
   }
+
+  def flatten[A](xxs: Lst[Lst[A]]): Lst[A] = xxs match {
+    case Nl      => Nl
+    case x +: xs => concat(x, flatten(xs))
+  }
 }
 
 object FuncScala extends Application {
