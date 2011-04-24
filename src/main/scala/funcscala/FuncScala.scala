@@ -38,14 +38,21 @@ sealed abstract class Lst[+A] {
     case Nl      => 0
     case x +: xs => 1 + length(xs)
   }
-  
+
   def append[A](a: A, lst: Lst[A]): Lst[A] = insertAt(length(lst), a, lst)
+
+  // Why do we need B and not just palain A: concat[A](...
+  def concat[A, B >: A](lxs: Lst[A], lys: Lst[B]): Lst[B] = (lxs, lys) match {
+    case (Nl, ys)      => ys
+    case (x +: xs, ys) => x +: concat(xs, ys)
+  }
 }
 
 object FuncScala extends Application {
-  println(Nl.append(0, 1 +: 2 +: Nl))
   println("Start time: " + new java.util.Date)
-//  println(Nl.length(1 +: 2 +: Nl))
+  println(Nl.concat(1 +: 2 +: Nl, 5 +: 6 +: Nl))
+  //  println(Nl.append(0, 1 +: 2 +: Nl))
+  //  println(Nl.length(1 +: 2 +: Nl))
   //  println("index out of bounds: " + Nl.insertAt(6, 0, 1 +: 2 +: 3 +: Nl))
   //  println(Nl.insertAt(1, 0, 1 +: 2 +: 3 +: Nl))
   //  println(1 +: 2 +: Nl)
