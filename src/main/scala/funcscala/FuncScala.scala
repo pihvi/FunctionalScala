@@ -69,12 +69,19 @@ sealed abstract class Lst[+A] {
     case (0, as)      => as
     case (i, a +: as) => drop2(i - 1, as)
   }
+
+  def splitAt[A](pos: Int, lst: Lst[A]): (Lst[A], Lst[A]) = lst match {
+    case Nl              => (Nl, Nl)
+    case xs if (pos < 1) => (Nl, xs)
+    case x +: xs         => (x +: splitAt(pos - 1, xs)._1, splitAt(pos - 1, xs)._2)
+  }
 }
 
 object FuncScala extends Application {
   println("Start time: " + new java.util.Date)
-  println(Nl.drop2(-2, 1 +: 2 +: 5 +: 6 +: Nl))
-  println(Nl.drop(-2, 1 +: 2 +: 5 +: 6 +: Nl))
+  println(Nl.splitAt(2, 1 +: 2 +: 5 +: 6 +: Nl))
+  //  println(Nl.drop2(-2, 1 +: 2 +: 5 +: 6 +: Nl))
+  //  println(Nl.drop(-2, 1 +: 2 +: 5 +: 6 +: Nl))
   //  println(Nl.take(3, 1 +: 2 +: 5 +: 6 +: Nl))
   //  println(Nl.concat(1 +: 2 +: Nl, 5 +: 6 +: Nl))
   //  println(Nl.append(0, 1 +: 2 +: Nl))
