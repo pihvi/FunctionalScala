@@ -27,13 +27,22 @@ sealed abstract class Lst[+A] {
     case (s, e) if s > e => Nl
     case (s, e)          => s +: interval(s + step, e, step)
   }
+
+  def insertAt[A](index: Int, x: A, lst: Lst[A]): Lst[A] = lst match {
+    case _ if (index == 0) => x +: lst;
+    case a +: as           => a +: insertAt(index - 1, x, as)
+    case Nl                => Nl
+  }
+  //def append[A](a: A, lst: Lst[A]): Lst[A] = insertAt(length(lst), a, lst)
 }
 
 object FuncScala extends Application {
+  println("index out of bounds: " + Nl.insertAt(6, 0, 1 +: 2 +: 3 +: Nl))
+  println(Nl.insertAt(1, 0, 1 +: 2 +: 3 +: Nl))
   println("Start time: " + new java.util.Date)
-  println(1 +: 2 +: Nl)
-  println(Nl.repeat("2", 8))
-  println(Nl.interval(start = 3, end = 27, step = 3))
+  //  println(1 +: 2 +: Nl)
+  //  println(Nl.repeat("2", 8))
+  //  println(Nl.interval(start = 3, end = 27, step = 3))
 }
 
 case object Nl extends Lst[Nothing]
