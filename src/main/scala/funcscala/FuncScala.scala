@@ -53,10 +53,9 @@ sealed abstract class Lst[+A] {
   }
 
   def take[A](count: Int, lst: Lst[A]): Lst[A] = lst match {
-    case Nl                      => Nl
-    case _ if (count < 1)        => Nl
-    case x +: xs if (count == 1) => x +: Nl
-    case x +: xs                 => x +: take(count - 1, xs)
+    case Nl               => Nl
+    case _ if (count < 1) => Nl
+    case x +: xs          => x +: take(count - 1, xs)
   }
 }
 
