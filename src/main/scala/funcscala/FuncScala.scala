@@ -1,3 +1,5 @@
+package funcscala
+
 sealed abstract class Lst[+A] {
   def +:[S >: A](x: S): Lst[S] = new +:(x, this)
 
